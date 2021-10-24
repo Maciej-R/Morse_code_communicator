@@ -5,18 +5,18 @@ import java.util.*
 open class Parameters(wpm: Float = Parameters.default_wpm, freq: Short = Parameters.default_frequency) {
 
     companion object {  // Default parameters
-        public const val default_wpm: Float = 50f
-        public const val default_frequency: Short = 200
+        public const val default_wpm: Float = 5f
+        public const val default_frequency: Short = 500
     }
     private val s_w_len: Byte = 50  // Standard word "Paris " length
     private var wpm: Float  = wpm  // Words per minute
-    private var freqency: Short = freq // Transmission frequency
+    protected var freqency: Short = freq // Transmission frequency
     private var unit_len: Float? = null // Basic unit length in milliseconds
-    private var space_len: Float? = null    // Word space length in milliseconds
-    private var intra_char_gap_len: Float? = null   // Gap between signals in one character length in milliseconds
-    private var inter_char_gap_len: Float? = null   // Gap between characters of one word length in milliseconds
-    private var dot_len: Float? = null  // Dot length in milliseconds
-    private var dash_len: Float? = null // Dash length in milliseconds
+    protected var space_len: Float? = null    // Word space length in milliseconds
+    protected var intra_char_gap_len: Float? = null   // Gap between signals in one character length in milliseconds
+    protected var inter_char_gap_len: Float? = null   // Gap between characters of one word length in milliseconds
+    protected var dot_len: Float? = null  // Dot length in milliseconds
+    protected var dash_len: Float? = null // Dash length in milliseconds
     // Dictionary translating characters to Morse code sequences
     protected val dict: Map<Char, String> = mapOf('a' to ".-", 'b' to "-...", 'c' to "-.-.", 'd' to "-..", 'e' to ".", 'f'
             to "..-.", 'g' to "--.", 'h' to "....", 'i' to "..", 'j' to ".---", 'k' to "-.-", 'l' to ".-..", 'm' to "--", 'n'
