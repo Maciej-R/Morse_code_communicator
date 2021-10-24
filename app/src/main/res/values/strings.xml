@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Morse code communicator</string>
+    <string name="frequency">Frequency</string>
+    <string name="text">Text</string>
+    <string name="send">Send</string>
+    <string name="received_text">Received text</string>
+    <string name="words_per_minute">Words per minute</string>
+    <string name="message">Message</string>
+    <string name="parameters">Parameters</string>
 </resources>
