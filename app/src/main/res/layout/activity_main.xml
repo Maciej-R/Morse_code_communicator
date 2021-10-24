@@ -13,7 +13,7 @@
         android:layout_marginTop="8dp"
         android:scaleX="2"
         android:scaleY="2"
-        android:text="Parameters"
+        android:text="@string/parameters"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -39,13 +39,15 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Frequency" />
+                android:gravity="center"
+                android:text="@string/frequency" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="194dp"
                 android:layout_height="20dp"
-                android:text="Words per minute"
+                android:gravity="center"
+                android:text="@string/words_per_minute"
                 tools:layout_editor_absoluteX="185dp"
                 tools:layout_editor_absoluteY="-1dp" />
         </TableRow>
@@ -59,18 +61,24 @@
                 android:layout_width="189dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
+                android:autofillHints=""
                 android:baselineAligned="false"
                 android:ems="6"
-                android:gravity="right"
-                android:inputType="number" />
+                android:gravity="end"
+                android:inputType="number"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck"
+                tools:layout_height="48dp" />
 
             <EditText
                 android:id="@+id/editTextNumber2"
                 android:layout_width="194dp"
                 android:layout_height="wrap_content"
                 android:ems="6"
-                android:gravity="left"
-                android:inputType="number" />
+                android:gravity="end"
+                android:inputType="number"
+                tools:ignore="SpeakableTextPresentCheck"
+                tools:layout_height="48dp"
+                android:autofillHints="" />
 
         </TableRow>
 
@@ -80,11 +88,11 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="200dp"
         android:layout_marginBottom="567dp"
         android:scaleX="2"
         android:scaleY="2"
-        android:text="Message"
+        android:text="@string/message"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,16 +105,19 @@
         android:layout_marginTop="16dp"
         android:ems="12"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        tools:ignore="SpeakableTextPresentCheck"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Send"
+        android:text="@string/send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
@@ -118,7 +129,7 @@
         android:layout_marginTop="64dp"
         android:scaleX="2"
         android:scaleY="2"
-        android:text="Received text"
+        android:text="@string/received_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar2" />
@@ -138,9 +149,10 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text"
+        android:layout_marginTop="16dp"
+        android:text="@string/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="444dp" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
