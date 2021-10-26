@@ -61,7 +61,7 @@
                 android:layout_width="189dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:autofillHints=""
+                android:autofillHints="2000"
                 android:baselineAligned="false"
                 android:ems="6"
                 android:gravity="end"
@@ -73,12 +73,12 @@
                 android:id="@+id/editTextNumber2"
                 android:layout_width="194dp"
                 android:layout_height="wrap_content"
+                android:autofillHints="2000"
                 android:ems="6"
                 android:gravity="end"
                 android:inputType="number"
                 tools:ignore="SpeakableTextPresentCheck"
-                tools:layout_height="48dp"
-                android:autofillHints="" />
+                tools:layout_height="48dp" />
 
         </TableRow>
 
@@ -103,14 +103,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:autofillHints="2000"
         android:ems="12"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        tools:ignore="SpeakableTextPresentCheck"
-        android:autofillHints="" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/button"
@@ -126,13 +126,13 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="30dp"
         android:scaleX="2"
         android:scaleY="2"
         android:text="@string/received_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar2" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonStop" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
@@ -154,5 +154,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <Button
+        android:id="@+id/buttonRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/start"
+        app:layout_constraintEnd_toStartOf="@+id/buttonStop"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar2" />
+
+    <Button
+        android:id="@+id/buttonStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/stop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buttonRecord"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
