@@ -10,8 +10,8 @@ open class Parameters(wpm: Float = Parameters.default_wpm, freq: Short = Paramet
     }
     private val s_w_len: Byte = 50  // Standard word "Paris " length
     private var wpm: Float  = wpm  // Words per minute
-    protected var freqency: Short = freq // Transmission frequency
     private var unit_len: Float? = null // Basic unit length in milliseconds
+    protected var freqency: Short = freq // Transmission frequency
     protected var space_len: Float? = null    // Word space length in milliseconds
     protected var intra_char_gap_len: Float? = null   // Gap between signals in one character length in milliseconds
     protected var inter_char_gap_len: Float? = null   // Gap between characters of one word length in milliseconds
@@ -35,6 +35,15 @@ open class Parameters(wpm: Float = Parameters.default_wpm, freq: Short = Paramet
         this.inter_char_gap_len = this.unit_len!! * 3
         this.dot_len = this.unit_len
         this.dash_len = this.unit_len!! * 3
+    }
+
+    public fun set_wpm(wpm: Float){
+        this.wpm = wpm
+        this.calulate_unit_length()
+    }
+
+    public fun set_frequency(f: Short){
+        this.freqency
     }
 
 }

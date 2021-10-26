@@ -12,8 +12,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        var st = SoundTransmitter()
-        st.sendMessage("test ")
+        var st = SoundTransmitter.getInstance()
+        st.sendMessage("test Test TEST")
     }
 
 }
