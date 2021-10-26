@@ -7,4 +7,6 @@
     <string name="words_per_minute">Words per minute</string>
     <string name="message">Message</string>
     <string name="parameters">Parameters</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>
