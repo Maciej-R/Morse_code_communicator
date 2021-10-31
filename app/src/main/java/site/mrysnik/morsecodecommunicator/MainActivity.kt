@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        SoundReceiver().test()
+        SignalProcessor().test()
 
         val audioFilePath = Environment.getExternalStorageDirectory().absolutePath + "/Music/recording.mp3"
 
