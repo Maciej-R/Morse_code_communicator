@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        SignalProcessor().test()
+        //SignalProcessor.getInstance().process()
 
         val audioFilePath = Environment.getExternalStorageDirectory().absolutePath + "/Music/recording.mp3"
 
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         var st = SoundTransmitter.getInstance()
-        //st.sendMessage("test Test TEST")
+        st.sendMessage("test Test TEST")
     }
 
     private fun startRecording() {

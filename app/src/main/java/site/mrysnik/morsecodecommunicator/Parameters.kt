@@ -2,15 +2,17 @@ package site.mrysnik.morsecodecommunicator
 
 import java.util.*
 
-open class Parameters(wpm: Float = Parameters.default_wpm, freq: Short = Parameters.default_frequency) {
+open class Parameters(wpm: Float = Parameters.default_wpm, freq: Short = Parameters.default_frequency, fs: Int = Parameters.default_samplingRate) {
 
     companion object {  // Default parameters
-        public const val default_wpm: Float = 5f
-        public const val default_frequency: Short = 500
+        const val default_wpm: Float = 20f
+        const val default_frequency: Short = 500
+        const val default_samplingRate: Int = 11050
     }
     private val s_w_len: Byte = 50  // Standard word "Paris " length
     private var wpm: Float  = wpm  // Words per minute
-    private var unit_len: Float? = null // Basic unit length in milliseconds
+    protected var samplingRate: Int? = fs // Audio sampling rate
+    protected var unit_len: Float? = null // Basic unit length in milliseconds
     protected var freqency: Short = freq // Transmission frequency
     protected var space_len: Float? = null    // Word space length in milliseconds
     protected var intra_char_gap_len: Float? = null   // Gap between signals in one character length in milliseconds
@@ -37,12 +39,12 @@ open class Parameters(wpm: Float = Parameters.default_wpm, freq: Short = Paramet
         this.dash_len = this.unit_len!! * 3
     }
 
-    public fun set_wpm(wpm: Float){
+    fun set_wpm(wpm: Float){
         this.wpm = wpm
         this.calulate_unit_length()
     }
 
-    public fun set_frequency(f: Short){
+    fun set_frequency(f: Short){
         this.freqency
     }
 
