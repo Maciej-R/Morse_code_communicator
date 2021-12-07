@@ -5,7 +5,6 @@ import android.media.AudioFormat
 import android.media.AudioTrack
 import android.os.Build
 import androidx.annotation.RequiresApi
-import java.lang.Math.sin
 import java.lang.Thread.sleep
 import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
@@ -21,7 +20,7 @@ class SoundTransmitter private constructor(wpm: Float, freq: Short): Parameters(
     // Ths companion object implements singleton logic for this class
     companion object {
         private var instance: SoundTransmitter? = null
-        fun getInstance(wpm: Float = Parameters.default_wpm, freq: Short = Parameters.default_frequency): SoundTransmitter {
+        fun getInstance(wpm: Float = default_wpm, freq: Short = default_frequency): SoundTransmitter {
             if (this.instance != null)
                 return this.instance!!
             return SoundTransmitter(wpm, freq)
@@ -33,6 +32,7 @@ class SoundTransmitter private constructor(wpm: Float, freq: Short): Parameters(
     // Used to queue messages that are to be transmitted
     private var message_queue: LinkedBlockingQueue<Vector<Signal>> = LinkedBlockingQueue<Vector<Signal>>()
     // Sound playing thread, immediately started
+    @RequiresApi(Build.VERSION_CODES.S)
     private val player: Thread = thread(true, false, null, "Sound player", -1) { this.play() }
     // Value indicating when signal playing thread should quit
     private var kill: Boolean = false
@@ -42,18 +42,14 @@ class SoundTransmitter private constructor(wpm: Float, freq: Short): Parameters(
     private val allowed_chars = Regex("[a-z0-9 ]*")
 
     init {
-
         // Transform signals from character representation to numeric representation
         for(e: Map.Entry<Char, String> in this.dict.entries){
-
-            var vec: Vector<Byte> = Vector<Byte>()
+            var vec: Vector<Byte> = Vector()
             for(c: Char in e.value){
                 vec.add((if (c == '-') 1 else 0))   // Dash to 1, dot to 0
             }
             this.dict_numeric[e.key] = vec
-
         }
-
     }
 
     /**
@@ -79,8 +75,7 @@ class SoundTransmitter private constructor(wpm: Float, freq: Short): Parameters(
         for((i, word: String) in words.withIndex()){
             // Iterate through characters
             for((j, c: Char) in word.withIndex()) {
-                var code: Vector<Byte>? = this.dict_numeric[c]
-                if (code == null) throw RuntimeException("Wrong character: $c")
+                val code: Vector<Byte> = this.dict_numeric[c] ?: throw RuntimeException("Wrong character: $c")
                 // Iterate through signals in code
                 for(k: Byte in code){
                     // Gaps between characters are not represented -
@@ -181,19 +176,22 @@ class SoundTransmitter private constructor(wpm: Float, freq: Short): Parameters(
 
                     Signal.dot -> {
                         if (dot_sound != null) {
-                            audio!!.write(dot_sound, 0, dot_sound.size)
+                            audio!!.flush()
+                            audio.write(dot_sound, 0, dot_sound.size)
                             audio.play()
                         }
                     }
                     Signal.dash -> {
                         if (dash_sound != null) {
-                            audio!!.write(dash_sound, 0, dash_sound.size)
+                            audio!!.flush()
+                            audio.write(dash_sound, 0, dash_sound.size)
                             audio.play()
                         }
                     }
                     Signal.inter_character_gap -> {
                         if (inter_char_gap_sound != null) {
-                            audio!!.write(inter_char_gap_sound, 0, inter_char_gap_sound.size)
+                            audio!!.flush()
+                            audio.write(inter_char_gap_sound, 0, inter_char_gap_sound.size)
                             audio.play()
                         }
                     }
@@ -222,7 +220,7 @@ class SoundTransmitter private constructor(wpm: Float, freq: Short): Parameters(
      *  @param[message] Message to be sent
      *  @throws RuntimeException When string does not match expected format
      */
-    public fun sendMessage(message:String){
+    fun sendMessage(message:String){
 
         // Morse code does not differentiate lower and upper case
         var msg = message.toLowerCase()
@@ -232,7 +230,6 @@ class SoundTransmitter private constructor(wpm: Float, freq: Short): Parameters(
             this.message_queue.put(this.translate(msg)) // Queue message
         else
             throw java.lang.RuntimeException("Unexpected string format")
-
     }
 
 }

@@ -24,16 +24,14 @@ class SignalProcessor(audioFs: Int, wpm: Float): Parameters(wpm = 20f) {
     private val delta = 1
     private val unitSignalLength = (Parameters.samplingRate * unit_len!!).toInt()/1000
     private val streakFraction = 0.9
-    private val processor: Thread = thread(true, false, null, "Signal processor", -1) { this.process() }
+//    private val processor: Thread = thread(true, false, null, "Signal processor", -1) { this.process() }
 
-    fun process() {
-        // mocked data - beginning
-        val file = RandomAccessFile(File("/storage/emulated/0/Music/20wpm_1000hz.wav"), "r")
+    fun process(inputFilePath: String) {
+        val file = RandomAccessFile(File(inputFilePath), "r")
         file.seek(40)
         val audioLength = file.readIntLE().toLong()
         audioData = ByteArray(audioLength.toInt())
         file.read(audioData)
-        // mocked data - ending
 
         var audioData2: MutableList<Double> = mutableListOf()
 

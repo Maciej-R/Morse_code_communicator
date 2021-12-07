@@ -1,11 +1,9 @@
 package site.mrysnik.morsecodecommunicator
 
-import java.util.*
-
 open class Parameters(wpm: Float = Parameters.default_wpm, freq: Short = Parameters.default_frequency) {
 
     companion object {  // Default parameters
-        const val default_wpm: Float = 5f
+        const val default_wpm: Float = 10f
         const val default_frequency: Short = 500
         const val samplingRate: Int = 11050
     }
@@ -47,5 +45,4 @@ open class Parameters(wpm: Float = Parameters.default_wpm, freq: Short = Paramet
     fun set_frequency(f: Short){
         this.freqency
     }
-
 }

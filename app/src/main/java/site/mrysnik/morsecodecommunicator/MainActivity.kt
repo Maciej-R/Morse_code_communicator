@@ -1,77 +1,74 @@
 package site.mrysnik.morsecodecommunicator
 
+import android.Manifest
 import android.content.pm.PackageManager
-import android.media.MediaRecorder
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.IOException
+import java.util.*
+
+private const val REQUEST_PERMISSIONS_CODE = 1337
 
 class MainActivity : AppCompatActivity() {
+    // Requesting permission to RECORD_AUDIO
+    private var permissionToRecordAccepted = false
+    private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-    private lateinit var mediaRecorder: MediaRecorder
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionToRecordAccepted = if (requestCode == REQUEST_PERMISSIONS_CODE) {
+            grantResults[0] == PackageManager.PERMISSION_GRANTED
+        } else {
+            false
+        }
+        if (!permissionToRecordAccepted) finish()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //SignalProcessor.getInstance().process()
+        // Init singletons
         SignalProcessor.getInstance()
-
-        val audioFilePath = Environment.getExternalStorageDirectory().absolutePath + "/Music/recording.mp3"
-
-        mediaRecorder = MediaRecorder()
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-        mediaRecorder.setOutputFile(audioFilePath)
+        SoundReceiver.getInstance()
 
         buttonStop.isEnabled = false
 
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSIONS_CODE)
+
         // Start Recording
         buttonRecord.setOnClickListener{
-            if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO, android.Manifest.permission.WRITE_EXTERNAL_STORAGE),1337)
-            } else {
-                buttonRecord.isEnabled = false
-                buttonStop.isEnabled = true
-                startRecording()
-            }
+            buttonRecord.isEnabled = false
+            buttonStop.isEnabled = true
+            val uniqueString: String = UUID.randomUUID().toString()
+            SoundReceiver.getInstance()?.startRecording(applicationContext.cacheDir.absolutePath + "/" + uniqueString)
         }
 
         // Stop Recording
         buttonStop.setOnClickListener{
-            stopRecording()
+            SoundReceiver.getInstance()?.stopRecording()
             buttonRecord.isEnabled = true
             buttonStop.isEnabled = false
+
+            val mp = MorseProcessor(SoundReceiver.getInstance()?.fileName)
+            mp.process()
+            this.textView4.text = mp.result()
+        }
+
+        buttonSend.setOnClickListener{
+            SoundTransmitter.getInstance().sendMessage(messageTextBox.text.toString())
         }
     }
 
     override fun onResume() {
         super.onResume()
-        var st = SoundTransmitter.getInstance()
-        //st.sendMessage("test Test TEST")
-    }
-
-    private fun startRecording() {
-        try {
-            mediaRecorder.prepare()
-            mediaRecorder.start()
-            Toast.makeText(this, "Recording started!", Toast.LENGTH_SHORT).show()
-        } catch (e: IllegalStateException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
-
-    private fun stopRecording(){
-        mediaRecorder.stop()
-        mediaRecorder.release()
-        Toast.makeText(this, "Recording stopped!", Toast.LENGTH_SHORT).show()
+        SoundTransmitter.getInstance()
+        SoundReceiver.getInstance()
     }
 }
