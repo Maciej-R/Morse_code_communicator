@@ -3,9 +3,9 @@ package site.mrysnik.morsecodecommunicator
 open class Parameters(wpm: Float = Parameters.default_wpm, freq: Short = Parameters.default_frequency) {
 
     companion object {  // Default parameters
-        const val default_wpm: Float = 10f
+        const val default_wpm: Float = 5f
         const val default_frequency: Short = 500
-        const val samplingRate: Int = 11050
+        const val samplingRate: Int = 22050
     }
     private val s_w_len: Byte = 50  // Standard word "Paris " length
     private var wpm: Float  = wpm  // Words per minute
@@ -31,8 +31,8 @@ open class Parameters(wpm: Float = Parameters.default_wpm, freq: Short = Paramet
     private fun calulate_unit_length() {
         this.unit_len = 60000f / (this.wpm * s_w_len)
         this.space_len = this.unit_len!! * 7
-        this.intra_char_gap_len = this.unit_len
-        this.inter_char_gap_len = this.unit_len!! * 3
+        this.intra_char_gap_len = this.unit_len!!
+        this.inter_char_gap_len = this.unit_len!! * 4
         this.dot_len = this.unit_len
         this.dash_len = this.unit_len!! * 3
     }

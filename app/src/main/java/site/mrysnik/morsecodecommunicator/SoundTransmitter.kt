@@ -100,9 +100,8 @@ class SoundTransmitter private constructor(wpm: Float, freq: Short): Parameters(
      */
     @RequiresApi(Build.VERSION_CODES.S)
     private fun play(){
-
         // Variables declarations
-        var use_fs: Int = 0
+        var use_fs = 0
         var use_f: Short = 0
         var dot_sound: ShortArray? = null
         var dash_sound: ShortArray? = null
@@ -116,7 +115,6 @@ class SoundTransmitter private constructor(wpm: Float, freq: Short): Parameters(
 
         // Run until variable indicate end of process
         while(!this.kill){
-
             // Take next message or wait until it will be available
             var msg: Vector<Signal> = message_queue.take()
 
@@ -176,29 +174,25 @@ class SoundTransmitter private constructor(wpm: Float, freq: Short): Parameters(
 
                     Signal.dot -> {
                         if (dot_sound != null) {
-                            audio!!.flush()
-                            audio.write(dot_sound, 0, dot_sound.size)
+                            audio!!.write(dot_sound, 0, dot_sound.size)
                             audio.play()
                         }
                     }
                     Signal.dash -> {
                         if (dash_sound != null) {
-                            audio!!.flush()
-                            audio.write(dash_sound, 0, dash_sound.size)
+                            audio!!.write(dash_sound, 0, dash_sound.size)
                             audio.play()
                         }
                     }
                     Signal.inter_character_gap -> {
                         if (inter_char_gap_sound != null) {
-                            audio!!.flush()
-                            audio.write(inter_char_gap_sound, 0, inter_char_gap_sound.size)
+                            audio!!.write(inter_char_gap_sound, 0, inter_char_gap_sound.size)
                             audio.play()
                         }
                     }
                     Signal.space -> {
                         this.space_len?.let { sleep(it.toLong()) }
                     }
-
                 }
                 // If currently signals from within one character are transmitted then
                 // leave appropriate silent gap between them
@@ -208,9 +202,7 @@ class SoundTransmitter private constructor(wpm: Float, freq: Short): Parameters(
                         audio!!.write(intra_char_gap_sound, 0, intra_char_gap_sound.size)
                         audio.play()
                     }
-
             }
-
         }
     }
 

@@ -129,7 +129,7 @@ class MorseProcessor(filename: String?) {
         signal.frame_start = wavFile.frameAlreadyRead
         val sample = readSample() // a positive value between 0 and 255
         signal.length++ //minimum signal length = 1 sample = 10ms
-        if (sample > 0.01) { // if the sample value is greater than 0.01 it is a valid signal
+        if (sample > 0.02) { // if the sample value is greater than 0.01 it is a valid signal
             signal.isSignal = true
         } else {
             signal.isSilence = true
@@ -140,8 +140,8 @@ class MorseProcessor(filename: String?) {
 
             // now check current type of signal and the next type of signal and
             // determine what to do
-            if (signal.isSilence && tmp_sample > 0.01 // if we got a silence and now a signal
-                || signal.isSignal && tmp_sample <= 0.01
+            if (signal.isSilence && tmp_sample > 0.02 // if we got a silence and now a signal
+                || signal.isSignal && tmp_sample <= 0.02
             ) // if we got a signal and now a silence
             {
                 // signal changes read, delete last sample length from total length
@@ -220,7 +220,7 @@ class MorseProcessor(filename: String?) {
                     //System.out.println("-");
                     "-" //dash
                 }
-            } else if (signal.isSilence !== false) {
+            } else if (signal.isSilence != false) {
                 //System.out.println("silence, length: " + signal.length_ms());
                 // check if silence is a "long" silence beetween two words
                 if (signal.length_ms() >= 2 * silence_medium_value) {
@@ -274,8 +274,7 @@ class MorseProcessor(filename: String?) {
 
     init {
         numChannels = wavFile.numChannels
-        sampleRate = wavFile.sampleRate.toInt()
-//        sampleRate = 44100 / 1000 * 10 // 44 frames per ms * 10 = 10ms sample length
+        sampleRate = (wavFile.sampleRate.toInt() / 1000) * 10
         buffer = DoubleArray(sampleRate * numChannels)
     }
 }

@@ -89,7 +89,6 @@ class SoundReceiver {
             System.gc()
 
             val inFile = File("${this@SoundReceiver.fileName}.tmp")
-            
             val file = File(fileName)
             WriteWaveFileHeader(
                 file,
